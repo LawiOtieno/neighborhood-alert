@@ -22,6 +22,9 @@ from django.core.mail import EmailMessage
 
 
 # Create your views here.
+
+###################### Landing
+
 # @login_required
 def index(request):
     current_user = request.user
@@ -59,7 +62,7 @@ def signup_view(request):
     form = SignUpForm()
   return render(request, 'registration/signup.html', {'form': form})
 
-# Login
+###################### Login
 def login(request):
   if request.method == 'POST':
     form = AuthenticationForm(request=request, data=request.POST)
@@ -79,7 +82,7 @@ def login(request):
   return render(request = request,template_name = "registration/login.html",context={"form":form})
 
 
-# Account Activation
+###################### Account Activation
 def activation_sent_view(request):
     return render(request, 'registration/activation_account.html')
 
@@ -105,4 +108,35 @@ def activate(request, uidb64, token):
     return redirect('login')
   else:
     return render(request, 'registration/activation_invalid.html')
+
+
+###################### Neighborhood
+
+# @login_required
+def create_neighborhood(request):
+  if request.method == 'POST':
+    add_neighborhood_form = CreateNeighborHoodForm(request.POST, request.FILES)
+    if add_neighborhood_form.is_valid():
+      neighborhood = add_neighborhood_form.save(commit=False)
+      neighborhood.admin = request.user.profile
+      neighborhood.save()
+      return redirect('home')
+  else:
+    add_neighborhood_form = CreateNeighborHoodForm()
+  return render(request, 'create_neighborhood.html', {'add_neighborhood_form': add_neighborhood_form})
+
+
+# @login_required
+def search(request):
+  if 'name' in request.GET and request.GET["name"]:
+    search_term = request.GET.get("name")
+    searched_businesses = Business.search_businesses(search_term)
+    message = f"{search_term}"
+
+    return render(request,'search.html', {"message":message,"businesses":searched_businesses})
+
+  else:
+    message = "You haven't searched for any term"
+    return render(request,'search.html',{"message":message})
+
 
