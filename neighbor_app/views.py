@@ -22,7 +22,7 @@ from django.core.mail import EmailMessage
 
 
 # Create your views here.
-@login_required
+# @login_required
 def index(request):
     current_user = request.user
     neighborhoods = NeighborHood.objects.all().order_by('-created_at')
@@ -77,3 +77,32 @@ def login(request):
       messages.error(request, "Invalid username or password.")
   form = AuthenticationForm()
   return render(request = request,template_name = "registration/login.html",context={"form":form})
+
+
+# Account Activation
+def activation_sent_view(request):
+    return render(request, 'registration/activation_account.html')
+
+
+def activate(request, uidb64, token):
+  try:
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = User.objects.get(pk=uid)
+  except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+    user = None
+
+
+  # checking user existence
+  if user is not None and account_activation_token.check_token(user, token):
+    
+    # If user is validated 
+    user.is_active = True
+
+    # SignUp_confirmation
+    user.profile.signup_confirmation = True
+    user.save()
+    login(request)
+    return redirect('login')
+  else:
+    return render(request, 'registration/activation_invalid.html')
+
