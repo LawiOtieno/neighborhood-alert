@@ -8,6 +8,8 @@ from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
+# NeighborHood
+
 class NeighborHood(models.Model):
     name = models.CharField(max_length=60)
     location = models.CharField(max_length=60)
