@@ -43,3 +43,27 @@ class UpdateNeighborhoodForm(forms.ModelForm):
     model = NeighborHood
     fields = ['name','location','description','population','police_contact','hospital_contact','image']
 
+
+# BusinessForm
+class CreateBusinessForm(forms.ModelForm):
+  class Meta:
+    model = Business
+    fields = ('name','description','image','email')
+
+
+class UpdateBusinessForm(forms.ModelForm):
+  class Meta:
+    model = Business
+    fields = ['name','description','image','email']
+
+
+# PostForm
+class CreatePostForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    fields = ('title','post','image')
+
+class UpdatePostForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    fields = ['title','post','image']
