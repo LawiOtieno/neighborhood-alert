@@ -140,3 +140,24 @@ def search(request):
     return render(request,'search.html',{"message":message})
 
 
+
+# @login_required
+def choose_neighborhood(request, neighborhood_id):
+  neighborhood = get_object_or_404(NeighborHood, id=neighborhood_id)
+  request.user.profile.neighborhood = neighborhood
+  request.user.profile.save()
+  return redirect('home')
+
+def get_neighborhood_users(request, neighborhood_id):
+  neighborhood = NeighborHood.objects.get(id=neighborhood_id)
+  users = Profile.objects.filter(neighborhood=neighborhood)
+  return render(request, 'neighborhood_users.html', {'users': users})
+
+
+# @login_required
+def leave_neighborhood(request, neighborhood_id):
+  neighborhood = get_object_or_404(NeighborHood, id=neighborhood_id)
+  request.user.profile.neighborhood = None
+  request.user.profile.save()
+  return redirect('home')
+
