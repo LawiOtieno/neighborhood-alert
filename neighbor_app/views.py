@@ -238,3 +238,79 @@ def update_business(request, business_id):
 
   return render(request, 'update_business.html', {"update_business_form":update_business_form})
 
+
+# @login_required
+def create_post(request, neighborhood_id):
+  neighborhood = NeighborHood.objects.get(id=neighborhood_id)
+  if request.method == 'POST':
+    add_post_form = CreatePostForm(request.POST,request.FILES)
+    if add_post_form.is_valid():
+      post = add_post_form.save(commit=False)
+      post.neighborhood = neighborhood
+      post.user = request.user
+      post.save()
+      return redirect('neighborhood', neighborhood.id)
+  else:
+    add_post_form = CreatePostForm()
+  return render(request, 'create_post.html', {'add_post_form': add_post_form,'neighborhood':neighborhood})
+
+
+
+# @login_required
+def delete_post(request,post_id):
+  current_user = request.user
+  post = Post.objects.get(pk=post_id)
+  if post:
+    post.delete_post()
+  return redirect('home')
+
+
+# @login_required
+def update_post(request, post_id):
+  post = Post.objects.get(pk=post_id)
+  if request.method == 'POST':
+    update_post_form = UpdatePostForm(request.POST,request.FILES, instance=post)
+    if update_post_form.is_valid():
+      update_post_form.save()
+      messages.success(request, f'Post updated!')
+      return redirect('home')
+  else:
+    update_post_form = UpdatePostForm(instance=post)
+
+  return render(request, 'update_post.html', {"update_post_form":update_post_form})
+
+
+@login_required
+def profile(request):
+  current_user = request.user
+  user_posts = Post.objects.filter(user_id = current_user.id).all()
+  
+  return render(request,'profile/profile.html',{'user_posts':user_posts,"current_user":current_user})
+
+@login_required
+def update_profile(request):
+  if request.method == 'POST':
+    user_form = UpdateUser(request.POST,instance=request.user)
+    profile_form = UpdateProfile(request.POST,request.FILES,instance=request.user.profile)
+    if user_form.is_valid() and profile_form.is_valid():
+      user_form.save()
+      profile_form.save()
+      messages.success(request,'Your Profile account has been updated successfully')
+      return redirect('profile')
+  else:
+    user_form = UpdateUser(instance=request.user)
+    profile_form = UpdateProfile(instance=request.user.profile) 
+  params = {
+    'user_form':user_form,
+    'profile_form':profile_form
+  }
+  return render(request,'profile/update.html',params)
+
+
+@login_required
+def users_profile(request,pk):
+  user = User.objects.get(pk = pk)
+  user_posts = Post.objects.filter(user_id = user.id).all()
+  current_user = request.user
+  
+  return render(request,'profile/users_profile.html',{'user_posts':user_posts,"user":user,"current_user":current_user})
