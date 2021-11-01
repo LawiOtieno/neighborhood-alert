@@ -123,7 +123,7 @@ def create_neighborhood(request):
       return redirect('home')
   else:
     add_neighborhood_form = CreateNeighborHoodForm()
-  return render(request, 'create_neighborhood.html', {'add_neighborhood_form': add_neighborhood_form})
+  return render(request, 'create_neighbor.html', {'add_neighborhood_form': add_neighborhood_form})
 
 
 # @login_required
@@ -134,7 +134,7 @@ def neighborhood(request, neighborhood_id):
   users = Profile.objects.filter(neighborhood=neighborhood)
   posts = Post.objects.filter(neighborhood=neighborhood)
 
-  return render(request, 'neighborhood.html', {'users':users,'current_user':current_user, 'neighborhood':neighborhood,'business':business,'posts':posts})
+  return render(request, 'neighbor.html', {'users':users,'current_user':current_user, 'neighborhood':neighborhood,'business':business,'posts':posts})
 
 
 
@@ -150,7 +150,7 @@ def update_neighborhood(request, neighborhood_id):
   else:
     update_neighborhood_form = UpdateNeighborhoodForm(instance=neighborhood)
 
-  return render(request, 'update_neighborhood.html', {"update_neighborhood_form":update_neighborhood_form})
+  return render(request, 'update_neighbor.html', {"update_neighborhood_form":update_neighborhood_form})
 
 # @login_required
 def delete_neighborhood(request,neighborhood_id):
