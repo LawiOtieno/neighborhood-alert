@@ -86,31 +86,32 @@ def login(request):
 
 
 ###################### Account Activation
-def activation_sent_view(request):
-    return render(request, 'registration/activation_account.html')
+
+# def activation_sent_view(request):
+#     return render(request, 'registration/activation_account.html')
 
 
-def activate(request, uidb64, token):
-  try:
-    uid = force_text(urlsafe_base64_decode(uidb64))
-    user = User.objects.get(pk=uid)
-  except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-    user = None
+# def activate(request, uidb64, token):
+#   try:
+#     uid = force_text(urlsafe_base64_decode(uidb64))
+#     user = User.objects.get(pk=uid)
+#   except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#     user = None
 
 
-  # checking user existence
-  if user is not None and account_activation_token.check_token(user, token):
+#   # checking user existence
+#   if user is not None and account_activation_token.check_token(user, token):
     
-    # If user is validated 
-    user.is_active = True
+#     # If user is validated 
+#     user.is_active = True
 
-    # SignUp_confirmation
-    user.profile.signup_confirmation = True
-    user.save()
-    login(request)
-    return redirect('login')
-  else:
-    return render(request, 'registration/activation_invalid.html')
+#     # SignUp_confirmation
+#     user.profile.signup_confirmation = True
+#     user.save()
+#     login(request)
+#     return redirect('login')
+#   else:
+#     return render(request, 'registration/activation_invalid.html')
 
 
 ###################### Neighborhood
