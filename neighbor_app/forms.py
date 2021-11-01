@@ -10,14 +10,14 @@ from django.forms import fields
 #
 
 
-class SignUpForm(UserCreationForm):
-  first_name = forms.CharField(max_length=100, help_text='Last Name')
-  last_name = forms.CharField(max_length=100, help_text='Last Name')
-  email = forms.EmailField(max_length=150, help_text='Email')
+# class SignUpForm(UserCreationForm):
+#   first_name = forms.CharField(max_length=100, help_text='Last Name')
+#   last_name = forms.CharField(max_length=100, help_text='Last Name')
+#   email = forms.EmailField(max_length=150, help_text='Email')
 
-  class Meta:
-    model = User
-    fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
+#   class Meta:
+#     model = User
+#     fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
 
 # Profile/User
 class UpdateProfile(forms.ModelForm):

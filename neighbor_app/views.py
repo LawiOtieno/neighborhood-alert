@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404,HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import login, authenticate
 from .forms import *
@@ -25,42 +26,44 @@ from django.core.mail import EmailMessage
 
 ###################### Landing
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def index(request):
     current_user = request.user
     neighborhoods = NeighborHood.objects.all().order_by('-created_at')
     return render(request, 'index.html',{'current_user':current_user, 'neighborhoods':neighborhoods})
 
-def signup_view(request):
-  if request.method  == 'POST':
-    form = SignUpForm(request.POST)
-    if form.is_valid():
-      user = form.save()
-      user.refresh_from_db()
-      user.profile.first_name = form.cleaned_data.get('first_name')
-      user.profile.last_name = form.cleaned_data.get('last_name')
-      user.profile.email = form.cleaned_data.get('email')
-      # user can't login until link confirmed
-      user.is_active = False
-      user.save()
-      current_site = get_current_site(request)
-      subject = 'Please Activate Your Account'
-      # load a template like get_template() 
-      # and calls its render() method immediately.
-      message = render_to_string('registration/activation_request.html', {
-          'user': user,
-          'domain': current_site.domain,
-          'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-          # method will generate a hash value with user related data
-          'token': account_activation_token.make_token(user),
-      })
-      to_email = form.cleaned_data.get('email')
-      email = EmailMessage(subject, message, to=[to_email])
-      email.send()
-      return redirect('activation_sent')
-  else:
-    form = SignUpForm()
-  return render(request, 'registration/signup.html', {'form': form})
+# def signup_view(request):
+#   if request.method  == 'POST':
+#     form = SignUpForm(request.POST)
+#     if form.is_valid():
+#       user = form.save()
+#       user.refresh_from_db()
+#       user.profile.first_name = form.cleaned_data.get('first_name')
+#       user.profile.last_name = form.cleaned_data.get('last_name')
+#       user.profile.email = form.cleaned_data.get('email')
+#       # user can't login until link confirmed
+#       user.is_active = False
+#       user.save()
+#       current_site = get_current_site(request)
+#       subject = 'Please Activate Your Account'
+#       # load a template like get_template() 
+#       # and calls its render() method immediately.
+#       message = render_to_string('registration/activation_request.html', {
+#           'user': user,
+#           'domain': current_site.domain,
+#           'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#           # method will generate a hash value with user related data
+#           'token': account_activation_token.make_token(user),
+#       })
+#       to_email = form.cleaned_data.get('email')
+#       email = EmailMessage(subject, message, to=[to_email])
+#       email.send()
+#       return redirect('activation_sent')
+#   else:
+#     form = SignUpForm()
+#   return render(request, 'registration/signup.html', {'form': form})
+
 
 ###################### Login
 def login(request):
@@ -112,7 +115,8 @@ def activate(request, uidb64, token):
 
 ###################### Neighborhood
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def create_neighborhood(request):
   if request.method == 'POST':
     add_neighborhood_form = CreateNeighborHoodForm(request.POST, request.FILES)
@@ -126,7 +130,8 @@ def create_neighborhood(request):
   return render(request, 'create_neighbor.html', {'add_neighborhood_form': add_neighborhood_form})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def neighborhood(request, neighborhood_id):
   current_user = request.user
   neighborhood = NeighborHood.objects.get(id=neighborhood_id)
@@ -138,7 +143,8 @@ def neighborhood(request, neighborhood_id):
 
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def update_neighborhood(request, neighborhood_id):
   neighborhood = NeighborHood.objects.get(pk=neighborhood_id)
   if request.method == 'POST':
@@ -152,7 +158,9 @@ def update_neighborhood(request, neighborhood_id):
 
   return render(request, 'update_neighbor.html', {"update_neighborhood_form":update_neighborhood_form})
 
-@login_required
+
+@login_required(login_url='/accounts/login/')
+# @login_required
 def delete_neighborhood(request,neighborhood_id):
   current_user = request.user
   neighborhood = NeighborHood.objects.get(pk=neighborhood_id)
@@ -161,7 +169,8 @@ def delete_neighborhood(request,neighborhood_id):
   return redirect('home')
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def search(request):
   if 'name' in request.GET and request.GET["name"]:
     search_term = request.GET.get("name")
@@ -176,7 +185,8 @@ def search(request):
 
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def choose_neighborhood(request, neighborhood_id):
   neighborhood = get_object_or_404(NeighborHood, id=neighborhood_id)
   request.user.profile.neighborhood = neighborhood
@@ -190,7 +200,8 @@ def get_neighborhood_users(request, neighborhood_id):
   return render(request, 'neighborhood_users.html', {'users': users})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def leave_neighborhood(request, neighborhood_id):
   neighborhood = get_object_or_404(NeighborHood, id=neighborhood_id)
   request.user.profile.neighborhood = None
@@ -198,7 +209,8 @@ def leave_neighborhood(request, neighborhood_id):
   return redirect('home')
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def create_business(request,neighborhood_id):
   neighborhood = NeighborHood.objects.get(id=neighborhood_id)
   if request.method == 'POST':
@@ -215,7 +227,8 @@ def create_business(request,neighborhood_id):
 
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def delete_business(request,business_id):
   current_user = request.user
   business = Business.objects.get(pk=business_id)
@@ -224,7 +237,8 @@ def delete_business(request,business_id):
   return redirect('home')
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def update_business(request, business_id):
   business = Business.objects.get(pk=business_id)
   if request.method == 'POST':
@@ -239,7 +253,8 @@ def update_business(request, business_id):
   return render(request, 'update_business.html', {"update_business_form":update_business_form})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def create_post(request, neighborhood_id):
   neighborhood = NeighborHood.objects.get(id=neighborhood_id)
   if request.method == 'POST':
@@ -256,7 +271,8 @@ def create_post(request, neighborhood_id):
 
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def delete_post(request,post_id):
   current_user = request.user
   post = Post.objects.get(pk=post_id)
@@ -265,7 +281,8 @@ def delete_post(request,post_id):
   return redirect('home')
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def update_post(request, post_id):
   post = Post.objects.get(pk=post_id)
   if request.method == 'POST':
@@ -280,14 +297,16 @@ def update_post(request, post_id):
   return render(request, 'update_post.html', {"update_post_form":update_post_form})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def profile(request):
   current_user = request.user
   user_posts = Post.objects.filter(user_id = current_user.id).all()
   
   return render(request,'profile/profile.html',{'user_posts':user_posts,"current_user":current_user})
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def update_profile(request):
   if request.method == 'POST':
     user_form = UpdateUser(request.POST,instance=request.user)
@@ -307,7 +326,8 @@ def update_profile(request):
   return render(request,'profile/update.html',params)
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
+# @login_required
 def users_profile(request,pk):
   user = User.objects.get(pk = pk)
   user_posts = Post.objects.filter(user_id = user.id).all()
