@@ -1,0 +1,1 @@
+web: gunicorn neighborhood_alert.wsgi --log-file -
