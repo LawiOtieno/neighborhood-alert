@@ -13,8 +13,8 @@ urlpatterns = [
 
     path('users/<pk>',app_views.users_profile,name='users_profile'),
     # path('signup/', app_views.signup_view, name="register"),
-    path('sent/', app_views.activation_sent_view, name="activation_sent"),
-    path('activate/<slug:uidb64>/<slug:token>/', app_views.activate, name='activate'),
+    # path('sent/', app_views.activation_sent_view, name="activation_sent"),
+    # path('activate/<slug:uidb64>/<slug:token>/', app_views.activate, name='activate'),
 
     path('accounts/login/',app_views.login,name='login'),
     path('accounts/profile/',app_views.profile,name='profile'),
