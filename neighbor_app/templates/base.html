@@ -18,19 +18,19 @@
 
   {% block styles %}
   {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" style="background-color: rgb(110, 110, 110);">
   {% endblock styles %}
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-md navbar-dark">
-    <a href="{% url 'home' %}" class="navbar-brand">Neighborhood Alert</a>
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark">
+    <a href="{% url 'home' %}" class="navbar-brand text-light bg-info px-1 rounded text-decoration-none">Neighborhood Alert</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
     {% if request.user.profile.neighborhood %}
-    <a class="my-neighborhood" href="{% url 'neighborhood' user.profile.neighborhood.id %}">{{user.profile.neighborhood.name}}</a>
+    <a class="text-light text-decoration-none" href="{% url 'neighborhood' user.profile.neighborhood.id %}">{{user.profile.neighborhood.name}}</a>
     {% endif %}
 
     <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -38,18 +38,17 @@
          
         </form>
         {% if user.is_authenticated %}
-        <a class="nav-item nav-link" href="{% url 'create_neighborhood' %}">Create Neighborhood</a>
+        <a class="nav-item nav-link text-light text-decoration-none" style="border: 1px solid rgb(160, 160, 160); margin-left: 4px;" href="{% url 'create_neighborhood' %}">Create Neighborhood</a>
             {% if current_user.profile.profile_picture.url %}
             <a href="{% url 'profile'%}">
-                <img class="profile_picture"
-              src="{{ current_user.profile.profile_picture.url }}" alt="">
+                <img src="{{ current_user.profile.profile_picture.url }}" alt="member image">
             </a>
               {% else %}
               <a  href="{% url 'profile'%}">
                 <i class="fas fa-user-tie"></i>
               </a>
                 {% endif %}
-        <a class="nav-item nav-link" href="/logout">Logout</a>
+        <a class="nav-item nav-link text-light text-decoration-none bg-danger rounded" href="/logout">Logout</a>
 
         {% else %}
         <a class="nav-item nav-link"  href="{% url 'register' %}">Sign Up</a>
@@ -57,6 +56,7 @@
         {% endif %}
     </div>
   </nav>
+  <br><br><br><br>
   {% block content %}
   {% endblock content %}
 

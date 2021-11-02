@@ -10,9 +10,10 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <a class="nav-item nav-link text-light text-decoration-none" style="border: 1px solid rgb(104, 104, 104); margin-left: 4px;" href="{% url 'create_business' neighborhood.id %}">Create Business</a>
         <a class="nav-item nav-link text-light text-decoration-none" style="border: 1px solid rgb(160, 160, 160); margin-left: 4px;" href="{% url 'create_post' neighborhood.id %}">Create Post</a>
-        <form class="form-inline ml-auto" role="search" action="{% url 'search' %}">
-            <input type="text" class="form-control mr-sm-2" placeholder="Search here..." name="name">
-            <button type="submit" class="btn btn-danger">Search</button>
+        <!-- Making search -->
+        <form class="d-inline-flex ml-auto" role="search" action="{% url 'search' %}">
+            <input type="text" class="form-control me-2" placeholder="Search here..." name="name">
+            <button type="submit" class="btn btn-success">Search</button>
         </form>
         {% if user.is_authenticated %}
             {% if current_user.profile.profile_picture.url %}
@@ -21,11 +22,11 @@
               {% else %}
               <a  href="{% url 'profile'%}"><i class="fas fa-user-tie"></i></a>
               {% endif %}
-            <a class="nav-item nav-link text-light text-decoration-none" href="/logout">Logout</a>
+            <a class="nav-item nav-link text-light bg-danger rounded text-decoration-none" href="/logout">Logout</a>
 
         {% else %}
         <a class="nav-item nav-link text-light text-decoration-none"  href="{% url 'register' %}">Sign Up</a>
-        <a class="nav-item nav-link text-light bg-danger rounded text-decoration-none"  href="{% url 'login' %}">Login</a>
+        <a class="nav-item nav-link text-light text-decoration-none"  href="{% url 'login' %}">Login</a>
         {% endif %}
     </div>
 </nav>
