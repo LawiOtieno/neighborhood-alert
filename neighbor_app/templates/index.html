@@ -5,22 +5,23 @@
 {% block content %}
 <div class="container home">
   <div class="row">
-    <div class="col-md-3"></div>
     <div class="col-md-8">
-      <h1 class="text-center">Welcome To This Neighborhood</h1>
+      <h2 class="text-center">Welcome Here, we are very peaceful people.</h2>
       {% if neighborhoods %}
       {% for neighborhood in neighborhoods %}
-      <div class="neighborhood">
-        <h2>{{neighborhood.name}}</h2>
+      <div>
+        <div class="text-center">
+          <h2>{{neighborhood.name}}</h2>
+        </div>
         <div class="neighbor-img">
-          <img src="{{neighborhood.image.url}}" class="img-fluid" alt="Responsive image">
+          <img src="{{neighborhood.image.url}}" class="img-fluid" alt="Neighborhood image">
         </div>
         <p>{{neighborhood.description}}</p>
         {% if request.user.profile.neighborhood == neighborhood %}
-        <a  href="{% url 'neighborhood' user.profile.neighborhood.id %}"><button class="btn btn-success button-action">Check my Neighborhood</button></a>
-        <a href="{% url 'leave_neighborhood' neighborhood.id %}" class="btn btn-outline-danger button-action">Leave {{neighborhood.name}} Neighborhood</a>
+        <a  href="{% url 'neighborhood' user.profile.neighborhood.id %}"><button class="btn btn-success button-action">My Neighbor</button></a>
+        <a href="{% url 'leave_neighborhood' neighborhood.id %}" class="btn btn-danger button-action">Leave {{neighborhood.name}}</a>
         {% elif not request.user.profile.neighborhood %}
-        <a  href="{% url 'choose_neighborhood' neighborhood.id %}" class="btn btn-success button-action">Move into {{neighborhood.name}} Neighborhood</a>
+        <a  href="{% url 'choose_neighborhood' neighborhood.id %}" class="btn btn-success button-action">Join {{neighborhood.name}}</a>
         {% endif %}
         {% if neighborhood.admin.user.username == current_user.username %}
         <div class="">

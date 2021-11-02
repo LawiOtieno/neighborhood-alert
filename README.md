@@ -1,11 +1,12 @@
 # NEIGHBORHOOD-ALERT-SITE
-
+Django Neighborhood Application.
 
 ## Description
+Django application where different users can join and set their **profiles**, **neighborhood** and **location**. They can also see **businesses** in the neighborhood, contacts of nearest **police stations** and **health centres**. People in the neighborhood can see other members & post updates of what is happening in the neighborhood so as to alert every member.
 
 
 ## Author(s) Info
-Lawrence Otieno: Fullstack developer who studied coding at Moringa School, under ACCESS SPONSORSHIP.
+**Lawrence Otieno**: Fullstack developer who studied coding at Moringa School, under ACCESS SPONSORSHIP.
 
 ## Support/Donate
 You can support our work in many ways, including buying us coffee ☕️.  
@@ -26,7 +27,7 @@ You can support our work in many ways, including buying us coffee ☕️.
 
 
 ## Live Page
-[View Live]()
+[View Live](https://neighborhood-alert.herokuapp.com/)
 
 
 ## Screenshot(s)
