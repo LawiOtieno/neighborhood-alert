@@ -5,21 +5,24 @@
 {% block content %}
 <div class="container banner">
     <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8 text-center banner-items">
-        <h2>Welcome to {{neighborhood.name}} Neighborhood</h2>
+      <div class="col-md-1"></div>
+      <div class="col-md-10 banner-items">
+        <div class="text-center">
+          <h2>Welcome to {{neighborhood.name}} Neighborhood</h2>
+        </div>
         <p>Neighborhood Location: {{neighborhood.location}}</p>
         <p>Occupants Population: {{neighborhood.population}}</p>
         <p>Police Telephone no: {{neighborhood.police_contact}}</p>
         <p>Hospital Telephone no: {{neighborhood.hospital_contact}}</p>
       </div>
-      <div class="col-md-2"></div>
     </div>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <h2 class="text-center header">Businesses</h2>
+      <div class="text-center">
+        <h2><u>BUSINESSES</u></h2>
+      </div>
       {% if business %}
       {% for business in business %}
       <div class="business">
@@ -39,7 +42,9 @@
       {% endif %}
     </div>
     <div class="col-md-6">
-      <h2 class="text-center header">Posts</h2>
+      <div class="text-center">
+        <h2><u>POSTS</u></h2>
+      </div>
       {% if posts %}
       {% for post in posts %}
       <div class="business">
@@ -59,12 +64,14 @@
       {% endif %}
     </div>
     <div class="col-md-3">
-      <h2 class="text-center header">People</h2>
-      <p>View the profiles of people alson in the neighborhood</p>
+      <div class="text-center">
+        <h2><u>MEMBERS</u></h2>
+      </div>
+      <p>See neighbors 👇</p>
       {% if users %}
       {% for person in users %}
       <div class="users">
-        <h3><a style="color: #1f531f;" href="{% url 'users_profile' person.user.id %}">{{person.user.profile.first_name}}</a></h3>
+        <h3><a style="color: #23381c;" href="{% url 'users_profile' person.user.id %}">{{person.user.profile.first_name}}</a></h3>
       </div>
       {% endfor %}
       {% endif %}
