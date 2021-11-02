@@ -19,7 +19,7 @@ django-utils-six==2.0
 djangorestframework==3.12.4
 gunicorn==19.0.0
 idna==2.10
-importlib-metadata==2.1.1
+importlib-metadata
 Pillow==8.2.0
 psycopg2==2.8.6
 python-decouple==3.5
